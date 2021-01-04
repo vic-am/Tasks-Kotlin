@@ -1,7 +1,6 @@
 package com.example.tasks.view
 
 import android.os.Bundle
-import android.view.Menu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -20,13 +19,13 @@ import com.example.tasks.viewmodel.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -37,10 +36,8 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        // Navegação
         setupNavigation()
 
-        // Observadores
         observe()
     }
 
