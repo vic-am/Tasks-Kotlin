@@ -11,10 +11,10 @@ import com.example.tasks.viewmodel.ExpiredTasksViewModel
 
 class ExpiredTasksFragment : Fragment() {
 
-    private lateinit var mViewModel: ExpiredTasksViewModel
+    private lateinit var viewModel: ExpiredTasksViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        mViewModel = ViewModelProvider(this).get(ExpiredTasksViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ExpiredTasksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_expired_tasks, container, false)
 
         return root

@@ -10,15 +10,14 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var mViewModel: RegisterViewModel
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        mViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
-        // Inicializa eventos
         listeners()
         observe()
     }
@@ -31,7 +30,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val email = edit_email.text.toString()
             val password = edit_password.text.toString()
 
-            mViewModel.create(name, email, password)
+            viewModel.create(name, email, password)
         }
     }
 
