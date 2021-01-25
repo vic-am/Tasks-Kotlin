@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (v.id == R.id.button_login) {
             handleLogin()
         } else if (v.id == R.id.text_register) {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            intentToRegisterActivity()
         }
     }
 
@@ -46,10 +46,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         viewModel.login.observe(this, Observer {
             if (it.getStatus()) {
-                startActivity(Intent(this, MainActivity::class.java))
+                intentToMainActivity()
             } else {
                 val message = it.getMessage()
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.loggedUser.observe(this, Observer {
+            if (it) {
+                intentToMainActivity()
             }
         })
     }
@@ -59,6 +65,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val password = edit_password.text.toString()
 
         viewModel.doLogin(email, password)
+    }
+
+    private fun intentToMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    private fun intentToRegisterActivity() {
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 
 }
