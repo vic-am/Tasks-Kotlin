@@ -48,8 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             if (it.getStatus()) {
                 intentToMainActivity()
             } else {
-                val message = it.getMessage()
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
             }
         })
 
