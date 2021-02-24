@@ -22,7 +22,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     var create: LiveData<ValidationListener> = mutableCreate
 
     fun create(name: String, email: String, password: String) {
-        personRepository.create(name, email, password, object : ApiListener {
+        personRepository.create(name, email, password, object : ApiListener<HeaderModel> {
             override fun onSuccess(model: HeaderModel) {
                 sharedPreferences.store(TOKEN_KEY, model.token)
                 sharedPreferences.store(PERSON_KEY, model.personKey)

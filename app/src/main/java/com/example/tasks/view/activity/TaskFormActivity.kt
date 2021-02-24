@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +33,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         viewModel = ViewModelProvider(this).get(TaskFormViewModel::class.java)
 
         buttonListeners()
-        observePriorities()
+        observe()
 
         viewModel.listPriorities()
 
@@ -66,7 +67,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         DatePickerDialog(this, this, year, month, day).show()
     }
 
-    private fun observePriorities() {
+    private fun observe() {
         viewModel.priorityList.observe(this, Observer {
             for (priority in it) {
                 priorityDescriptionList.add(priority.description)
@@ -80,6 +81,15 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             )
             spinner_priority.adapter = spinnerAdapter
 
+        })
+
+        viewModel.validation.observe(this, Observer {
+            if (it.getStatus()) {
+                Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
+
+            }
         })
     }
 
