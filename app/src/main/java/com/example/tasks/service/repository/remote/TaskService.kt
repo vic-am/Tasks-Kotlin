@@ -10,7 +10,7 @@ interface TaskService {
     fun all(): Call<List<TaskModel>>
 
     @GET("Task/Next7Days")
-    fun nextSevenDays(): Call<List<TaskModel>>
+    fun nextWeek(): Call<List<TaskModel>>
 
     @GET("Task/Overdue")
     fun overdue(): Call<List<TaskModel>>
