@@ -1,4 +1,4 @@
-package com.example.tasks.view
+package com.example.tasks.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import com.example.tasks.viewmodel.NextTasksViewModel
 
 class NextTasksFragment : Fragment() {
 
-    private lateinit var mViewModel: NextTasksViewModel
+    private lateinit var viewModel: NextTasksViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        mViewModel = ViewModelProvider(this).get(NextTasksViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NextTasksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_next_tasks, container, false)
 
         return root
