@@ -4,18 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.tasks.service.HeaderModel
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_KEY
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_NAME
 import com.example.tasks.service.constants.TaskConstants.SHARED.TOKEN_KEY
 import com.example.tasks.service.listener.ApiListener
 import com.example.tasks.service.listener.ValidationListener
+import com.example.tasks.service.model.HeaderModel
 import com.example.tasks.service.repository.PersonRepository
+import com.example.tasks.service.repository.PriorityRepository
 import com.example.tasks.service.repository.local.SecurityPreferences
+import com.example.tasks.service.repository.remote.RetrofitClient
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val personRepository = PersonRepository(application)
+    private val priorityRepository = PriorityRepository(application)
     private val sharedPreferences = SecurityPreferences(application)
 
     private val mutableLogin = MutableLiveData<ValidationListener>()
@@ -25,11 +28,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var loggedUser: LiveData<Boolean> = mutableLoggedUser
 
     fun doLogin(email: String, password: String) {
-        personRepository.login(email, password, object : ApiListener {
+        personRepository.login(email, password, object : ApiListener<HeaderModel>{
             override fun onSuccess(model: HeaderModel) {
                 sharedPreferences.store(TOKEN_KEY, model.token)
                 sharedPreferences.store(PERSON_KEY, model.personKey)
                 sharedPreferences.store(PERSON_NAME, model.name)
+
+                RetrofitClient.addHeader(model.token, model.personKey)
 
                 mutableLogin.value = ValidationListener()
             }
@@ -45,7 +50,12 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         val token = sharedPreferences.get(TOKEN_KEY)
         val person = sharedPreferences.get(PERSON_KEY)
 
+        RetrofitClient.addHeader(token, person)
+
         val isLogged = (token != "" && person != "")
+
+        if (!isLogged) priorityRepository.all()
+
         mutableLoggedUser.value = isLogged
 
 

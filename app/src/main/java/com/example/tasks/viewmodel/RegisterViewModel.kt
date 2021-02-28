@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.tasks.service.HeaderModel
+import com.example.tasks.service.model.HeaderModel
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_KEY
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_NAME
 import com.example.tasks.service.constants.TaskConstants.SHARED.TOKEN_KEY
@@ -22,7 +22,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     var create: LiveData<ValidationListener> = mutableCreate
 
     fun create(name: String, email: String, password: String) {
-        personRepository.create(name, email, password, object : ApiListener {
+        personRepository.create(name, email, password, object : ApiListener<HeaderModel> {
             override fun onSuccess(model: HeaderModel) {
                 sharedPreferences.store(TOKEN_KEY, model.token)
                 sharedPreferences.store(PERSON_KEY, model.personKey)
