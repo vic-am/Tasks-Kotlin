@@ -38,4 +38,6 @@ class PriorityRepository(context: Context) {
     fun list(): List<PriorityModel> {
         return priorityDatabase.list()
     }
+
+    fun getDescription(id: Int) = priorityDatabase.getDescription(id)
 }
