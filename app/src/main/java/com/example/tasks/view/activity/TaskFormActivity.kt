@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tasks.R
+import com.example.tasks.service.constants.TaskConstants
 import com.example.tasks.service.model.TaskModel
 import com.example.tasks.viewmodel.TaskFormViewModel
 import kotlinx.android.synthetic.main.activity_register.button_save
@@ -24,6 +25,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
     private val priorityIdList: MutableList<Int> = arrayListOf()
     private val priorityDescriptionList: MutableList<String> = arrayListOf()
+    private var newTaskId = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,8 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
         viewModel.listPriorities()
 
+        loadDataFromActivity()
+
     }
 
     override fun onClick(view: View) {
@@ -48,8 +52,19 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    private fun loadDataFromActivity() {
+        val bundle = intent.extras
+        if (bundle != null) {
+            newTaskId = bundle.getInt(TaskConstants.BUNDLE.TASKID)
+            viewModel.load(newTaskId)
+        } else {
+
+        }
+    }
+
     private fun handleSave() {
         val task = TaskModel().apply {
+            this.id = newTaskId
             this.description = edit_description.text.toString()
             this.priorityId = priorityIdList[spinner_priority.selectedItemPosition]
             this.dueData = button_date.text.toString()
@@ -86,11 +101,32 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         viewModel.validation.observe(this, Observer {
             if (it.getStatus()) {
                 Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
 
             }
         })
+
+        viewModel.task.observe(this, Observer {
+            edit_description.setText(it.description)
+            check_complete.isChecked = it.complete
+
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(it.dueData)
+            button_date.text = dateFormat.format(date)
+
+            spinner_priority.setSelection(getIndex(it.priorityId))
+        })
+    }
+
+    private fun getIndex(priorityId: Int): Int {
+        var index = 0
+        for (i in 0 until priorityIdList.count()) {
+            if (priorityIdList[i] == priorityId) {
+                index = i
+                break
+            }
+        }
+        return index
     }
 
     private fun buttonListeners() {

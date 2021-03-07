@@ -27,4 +27,35 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
+    fun complete(id: Int) {
+        taskRepository.updateStatus(id, true, object : ApiListener<Boolean> {
+            override fun onSuccess(model: Boolean) {
+                list()
+            }
+
+            override fun onFailure(string: String) {}
+        })
+    }
+
+    fun undo(id: Int) {
+        taskRepository.updateStatus(id, false, object : ApiListener<Boolean> {
+            override fun onSuccess(model: Boolean) {
+                list()
+            }
+
+            override fun onFailure(string: String) {}
+        })
+    }
+
+    fun delete(id: Int){
+
+        taskRepository.delete(id, object : ApiListener<Boolean> {
+            override fun onSuccess(model: Boolean) {
+                list()
+            }
+
+            override fun onFailure(string: String) {
+            }
+        })    }
+
 }
