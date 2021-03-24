@@ -57,6 +57,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         if (bundle != null) {
             newTaskId = bundle.getInt(TaskConstants.BUNDLE.TASKID)
             viewModel.load(newTaskId)
+            button_save.text = getString(R.string.update_task)
         } else {
 
         }
@@ -100,9 +101,14 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
         viewModel.validation.observe(this, Observer {
             if (it.getStatus()) {
-                Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
+                if (newTaskId == 0) {
+                    makeToast(getString(R.string.task_created), Toast.LENGTH_SHORT)
+                } else {
+                    makeToast(getString(R.string.task_updated), Toast.LENGTH_SHORT)
+                }
+                finish()
             } else {
-                Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
+                makeToast(it.getMessage(), Toast.LENGTH_SHORT)
 
             }
         })
@@ -116,6 +122,10 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
             spinner_priority.setSelection(getIndex(it.priorityId))
         })
+    }
+
+    private fun makeToast(string: String, lenght: Int) {
+        Toast.makeText(this, string, lenght).show()
     }
 
     private fun getIndex(priorityId: Int): Int {

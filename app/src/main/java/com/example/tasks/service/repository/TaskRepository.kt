@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TaskRepository(val context: Context) {
+class TaskRepository(val context: Context) : BaseRepository(context) {
 
     private val remote = RetrofitClient.createService(TaskService::class.java)
 
@@ -33,6 +33,12 @@ class TaskRepository(val context: Context) {
 
 
     private fun list(call: Call<List<TaskModel>>, listener: ApiListener<List<TaskModel>>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         call.enqueue(object : Callback<List<TaskModel>> {
             override fun onResponse(
                 call: Call<List<TaskModel>>,
@@ -54,6 +60,12 @@ class TaskRepository(val context: Context) {
     }
 
     fun updateStatus(id: Int, complete: Boolean, listener: ApiListener<Boolean>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call = if (complete) {
             remote.complete(id)
         } else {
@@ -81,6 +93,12 @@ class TaskRepository(val context: Context) {
     }
 
     fun create(task: TaskModel, listener: ApiListener<Boolean>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<Boolean> =
             remote.create(task.priorityId, task.description, task.dueData, task.complete)
         call.enqueue(object : Callback<Boolean> {
@@ -104,6 +122,12 @@ class TaskRepository(val context: Context) {
     }
 
     fun update(task: TaskModel, listener: ApiListener<Boolean>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<Boolean> =
             remote.update(task.id, task.priorityId, task.description, task.dueData, task.complete)
         call.enqueue(object : Callback<Boolean> {
@@ -127,6 +151,12 @@ class TaskRepository(val context: Context) {
     }
 
     fun load(id: Int, listener: ApiListener<TaskModel>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<TaskModel> =
             remote.load(id)
         call.enqueue(object : Callback<TaskModel> {
@@ -150,6 +180,12 @@ class TaskRepository(val context: Context) {
     }
 
     fun delete(id: Int, listener: ApiListener<Boolean>) {
+
+        if (!isConnectionAvailable(context)) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<Boolean> =
             remote.delete(id)
         call.enqueue(object : Callback<Boolean> {

@@ -30,7 +30,6 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun save(task: TaskModel) {
-
         if (task.id == 0) {
             taskRepository.create(task, object : ApiListener<Boolean> {
                 override fun onSuccess(model: Boolean) {
