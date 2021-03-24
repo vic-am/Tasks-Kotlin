@@ -71,8 +71,8 @@ class AllTasksFragment : Fragment() {
 
     private fun observe() {
         viewModel.tasks.observe(viewLifecycleOwner, Observer {
-            if (it.count() > 0) {
-                adapter.updateListener(it)
+            if (it.count() >= 0) {
+                adapter.updateList(it)
             }
         })
 
