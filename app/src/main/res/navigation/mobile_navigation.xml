@@ -9,17 +9,33 @@
         android:id="@+id/nav_all_tasks"
         android:name="com.example.tasks.view.fragment.AllTasksFragment"
         android:label="@string/all_tasks"
-        tools:layout="@layout/fragment_all_tasks" />
+        tools:layout="@layout/fragment_all_tasks">
+        <argument
+            android:name="taskfilter"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_next_tasks"
-        android:name="com.example.tasks.view.fragment.NextTasksFragment"
+        android:name="com.example.tasks.view.fragment.AllTasksFragment"
         android:label="@string/proximos_7_dias"
-        tools:layout="@layout/fragment_next_tasks" />
+        tools:layout="@layout/fragment_all_tasks">
+        <argument
+            android:name="taskfilter"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_expired"
-        android:name="com.example.tasks.view.fragment.ExpiredTasksFragment"
+        android:name="com.example.tasks.view.fragment.AllTasksFragment"
         android:label="@string/expiradas"
-        tools:layout="@layout/fragment_expired_tasks" />
+        tools:layout="@layout/fragment_all_tasks">
+        <argument
+            android:name="taskfilter"
+            android:defaultValue="2"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>
