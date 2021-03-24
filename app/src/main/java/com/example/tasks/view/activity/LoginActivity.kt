@@ -47,14 +47,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.login.observe(this, Observer {
             if (it.getStatus()) {
                 intentToMainActivity()
+                finish()
+
             } else {
                 Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
+
             }
         })
 
         viewModel.loggedUser.observe(this, Observer {
             if (it) {
                 intentToMainActivity()
+                finish()
+                
             }
         })
     }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TaskModel(
     @SerializedName("Id")
-    val id: Int = 0,
+    var id: Int = 0,
     @SerializedName("Description")
     var description: String = "",
     @SerializedName("PriorityId")
