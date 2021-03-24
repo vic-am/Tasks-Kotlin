@@ -49,7 +49,7 @@ interface TaskService {
         @Field("Id") id: Int
     ): Call<Boolean>
 
-    @HTTP(method = "PUT", path = "Task/Undo", hasBody = true)
+    @HTTP(method = "DELETE", path = "Task", hasBody = true)
     @FormUrlEncoded
     fun delete(
         @Field("Id") id: Int
