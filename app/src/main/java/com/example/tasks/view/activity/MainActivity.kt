@@ -2,9 +2,11 @@ package com.example.tasks.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.loadUserName()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -63,7 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-
+        viewModel.userName.observe(this, Observer {
+            val nav = findViewById<NavigationView>(R.id.nav_view)
+            val header = nav.getHeaderView(0)
+            header.findViewById<TextView>(R.id.text_name).text = it
+        })
     }
 
 }
