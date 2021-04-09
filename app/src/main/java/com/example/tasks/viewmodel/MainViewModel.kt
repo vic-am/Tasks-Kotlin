@@ -25,6 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         sharedPreferences.remove(TaskConstants.SHARED.TOKEN_KEY)
         sharedPreferences.remove(TaskConstants.SHARED.PERSON_KEY)
         sharedPreferences.remove(TaskConstants.SHARED.PERSON_NAME)
+        sharedPreferences.remove(TaskConstants.SHARED.PERSON_EMAIL)
 
         mutableLogout.value = true
     }

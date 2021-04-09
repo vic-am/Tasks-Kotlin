@@ -33,6 +33,7 @@
         <item name="android:background">#ececec</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_height">2dp</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
