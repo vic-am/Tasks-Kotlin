@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.tasks.service.FingerprintHelper
+import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_EMAIL
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_KEY
 import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_NAME
 import com.example.tasks.service.constants.TaskConstants.SHARED.TOKEN_KEY
@@ -24,15 +26,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableLogin = MutableLiveData<ValidationListener>()
     var login: LiveData<ValidationListener> = mutableLogin
 
-    private val mutableLoggedUser = MutableLiveData<Boolean>()
-    var loggedUser: LiveData<Boolean> = mutableLoggedUser
+    private val mutableFingerprint = MutableLiveData<Boolean>()
+    var fingerprint: LiveData<Boolean> = mutableFingerprint
+
+    var userName = ""
 
     fun doLogin(email: String, password: String) {
-        personRepository.login(email, password, object : ApiListener<HeaderModel>{
+        personRepository.login(email, password, object : ApiListener<HeaderModel> {
             override fun onSuccess(model: HeaderModel) {
                 sharedPreferences.store(TOKEN_KEY, model.token)
                 sharedPreferences.store(PERSON_KEY, model.personKey)
                 sharedPreferences.store(PERSON_NAME, model.name)
+                sharedPreferences.store(PERSON_EMAIL, email)
 
                 RetrofitClient.addHeader(model.token, model.personKey)
 
@@ -45,20 +50,27 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    fun verifyLoggedUser() {
+    fun isAuthenticationAvailable() {
 
         val token = sharedPreferences.get(TOKEN_KEY)
         val person = sharedPreferences.get(PERSON_KEY)
-
-        RetrofitClient.addHeader(token, person)
+        userName = sharedPreferences.get(PERSON_NAME)
 
         val isLogged = (token != "" && person != "")
 
+        RetrofitClient.addHeader(token, person)
+
         if (!isLogged) priorityRepository.all()
 
-        mutableLoggedUser.value = isLogged
-
-
+        if (FingerprintHelper.isAuthenticationAvailable(getApplication())) {
+            mutableFingerprint.value = isLogged
+        }
     }
 
+    fun loadSavedEmail(): String {
+        return if (sharedPreferences.get(PERSON_EMAIL) != "") {
+            sharedPreferences.get(PERSON_EMAIL)
+        } else ""
+
+    }
 }

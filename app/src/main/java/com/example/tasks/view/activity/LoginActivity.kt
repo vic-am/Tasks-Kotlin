@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tasks.R
 import com.example.tasks.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -23,7 +26,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         setListeners()
         observe()
-        verifyLoggedUser()
+
+        loadEmail()
+        viewModel.isAuthenticationAvailable()
     }
 
     override fun onClick(v: View) {
@@ -39,29 +44,25 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         text_register.setOnClickListener(this)
     }
 
-    private fun verifyLoggedUser() {
-        viewModel.verifyLoggedUser()
-    }
-
     private fun observe() {
         viewModel.login.observe(this, Observer {
             if (it.getStatus()) {
                 intentToMainActivity()
                 finish()
-
             } else {
                 Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
-
             }
         })
 
-        viewModel.loggedUser.observe(this, Observer {
+        viewModel.fingerprint.observe(this, Observer {
             if (it) {
-                intentToMainActivity()
-                finish()
-                
+                showAuthentication()
             }
         })
+    }
+
+    private fun loadEmail() {
+        edit_email.setText(viewModel.loadSavedEmail())
     }
 
     private fun handleLogin() {
@@ -69,6 +70,32 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val password = edit_password.text.toString()
 
         viewModel.doLogin(email, password)
+    }
+
+    private fun showAuthentication() {
+
+        val executor: Executor = ContextCompat.getMainExecutor(this)
+
+        val biometricPrompt = BiometricPrompt(
+            this@LoginActivity,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+
+            })
+
+        val info: BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Olá, ${viewModel.userName}")
+            .setSubtitle("Utilize sua digital para ter acesso ao app")
+            .setDescription("Caso não seja o ${viewModel.userName} ou queira acessar com sua senha, pressione o botão cancelar")
+            .setNegativeButtonText("Cancelar")
+            .build()
+
+        biometricPrompt.authenticate(info)
     }
 
     private fun intentToMainActivity() {
