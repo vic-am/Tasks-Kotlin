@@ -40,7 +40,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         viewModel.create.observe(this, Observer {
             if (it.getStatus()) {
-                intentToMainActivity()
+                intentToLoginActivity()
             } else {
                 Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
             }
@@ -51,7 +51,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         button_save.setOnClickListener(this)
     }
 
-    private fun intentToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+    private fun intentToLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
