@@ -19,10 +19,11 @@ class TaskViewHolder(itemView: View, val listener: TaskListener) :
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
     private val priorityRepository = PriorityRepository(itemView.context)
 
-    private var mTextDescription: TextView = itemView.findViewById(R.id.text_description)
-    private var mTextPriority: TextView = itemView.findViewById(R.id.text_priority)
-    private var mTextDueDate: TextView = itemView.findViewById(R.id.text_due_date)
-    private var mImageTask: ImageView = itemView.findViewById(R.id.image_task)
+    private var taskContainer: View = itemView.findViewById(R.id.task_container)
+    private var textDescription: TextView = itemView.findViewById(R.id.text_description)
+    private var textPriority: TextView = itemView.findViewById(R.id.text_priority)
+    private var textDueDate: TextView = itemView.findViewById(R.id.text_due_date)
+    private var imageTask: ImageView = itemView.findViewById(R.id.image_task)
 
     /**
      * Atribui valores aos elementos de interface e também eventos
@@ -30,23 +31,23 @@ class TaskViewHolder(itemView: View, val listener: TaskListener) :
 
     fun bindData(task: TaskModel) {
 
-        this.mTextDescription.text = task.description
-        this.mTextPriority.text = priorityRepository.priorityDescription(task.priorityId)
+        this.textDescription.text = task.description
+        this.textPriority.text = priorityRepository.priorityDescription(task.priorityId)
 
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(task.dueData)
-        if (date != null) this.mTextDueDate.text = dateFormat.format(date)
+        if (date != null) this.textDueDate.text = dateFormat.format(date)
 
         if (task.complete) {
-            mTextDescription.setTextColor(Color.GRAY)
-            mImageTask.setImageResource(R.drawable.ic_done)
+            textDescription.setTextColor(Color.GRAY)
+            imageTask.setImageResource(R.drawable.ic_done)
         } else {
-            mTextDescription.setTextColor(Color.BLACK)
-            mImageTask.setImageResource(R.drawable.ic_todo)
+            textDescription.setTextColor(Color.BLACK)
+            imageTask.setImageResource(R.drawable.ic_todo)
         }
 
         // Eventos
-        mTextDescription.setOnClickListener { listener.onListClick(task.id) }
-        mImageTask.setOnClickListener {
+        taskContainer.setOnClickListener { listener.onListClick(task.id) }
+        imageTask.setOnClickListener {
             if (task.complete) {
                 listener.onUndoClick(task.id)
             } else {
@@ -55,7 +56,7 @@ class TaskViewHolder(itemView: View, val listener: TaskListener) :
         }
 
 
-        mTextDescription.setOnLongClickListener {
+        textDescription.setOnLongClickListener {
             AlertDialog.Builder(itemView.context)
                 .setTitle(R.string.remocao_de_tarefa)
                 .setMessage(R.string.remover_tarefa)
