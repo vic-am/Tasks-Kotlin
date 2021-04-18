@@ -16,23 +16,23 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
 
     private val remote = RetrofitClient.createService(TaskService::class.java)
 
-    fun all(listener: ApiListener<List<TaskModel>>) {
+    fun allTasks(listener: ApiListener<List<TaskModel>>) {
         val call: Call<List<TaskModel>> = remote.all()
-        list(call, listener)
+        taskList(call, listener)
     }
 
-    fun nextWeek(listener: ApiListener<List<TaskModel>>) {
+    fun nextWeekTasks(listener: ApiListener<List<TaskModel>>) {
         val call: Call<List<TaskModel>> = remote.nextWeek()
-        list(call, listener)
+        taskList(call, listener)
     }
 
-    fun overdue(listener: ApiListener<List<TaskModel>>) {
+    fun overdueTasks(listener: ApiListener<List<TaskModel>>) {
         val call: Call<List<TaskModel>> = remote.overdue()
-        list(call, listener)
+        taskList(call, listener)
     }
 
 
-    private fun list(call: Call<List<TaskModel>>, listener: ApiListener<List<TaskModel>>) {
+    private fun taskList(call: Call<List<TaskModel>>, listener: ApiListener<List<TaskModel>>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
@@ -59,7 +59,7 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun updateStatus(id: Int, complete: Boolean, listener: ApiListener<Boolean>) {
+    fun changeTaskStatus(id: Int, complete: Boolean, listener: ApiListener<Boolean>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
@@ -92,7 +92,7 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun create(task: TaskModel, listener: ApiListener<Boolean>) {
+    fun createTask(task: TaskModel, listener: ApiListener<Boolean>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
@@ -121,7 +121,7 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun update(task: TaskModel, listener: ApiListener<Boolean>) {
+    fun updateTask(task: TaskModel, listener: ApiListener<Boolean>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
@@ -150,7 +150,7 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun load(id: Int, listener: ApiListener<TaskModel>) {
+    fun loadTask(id: Int, listener: ApiListener<TaskModel>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
@@ -179,7 +179,7 @@ class TaskRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun delete(id: Int, listener: ApiListener<Boolean>) {
+    fun deleteTask(id: Int, listener: ApiListener<Boolean>) {
 
         if (!isConnectionAvailable(context)) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))

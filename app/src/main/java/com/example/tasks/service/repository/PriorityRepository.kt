@@ -16,7 +16,7 @@ class PriorityRepository(val context: Context) : BaseRepository(context) {
     private val priorityDatabase = TaskDatabase.getDatabase(context).priorityDao()
 
 
-    fun all() {
+    fun allPriorities() {
 
         if (!isConnectionAvailable(context)){
             return
@@ -40,9 +40,9 @@ class PriorityRepository(val context: Context) : BaseRepository(context) {
         })
     }
 
-    fun list(): List<PriorityModel> {
+    fun prioritiesList(): List<PriorityModel> {
         return priorityDatabase.list()
     }
 
-    fun getDescription(id: Int) = priorityDatabase.getDescription(id)
+    fun priorityDescription(id: Int) = priorityDatabase.getDescription(id)
 }

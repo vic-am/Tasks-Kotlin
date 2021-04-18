@@ -27,13 +27,14 @@ class TaskViewHolder(itemView: View, val listener: TaskListener) :
     /**
      * Atribui valores aos elementos de interface e também eventos
      */
+
     fun bindData(task: TaskModel) {
 
         this.mTextDescription.text = task.description
-        this.mTextPriority.text = priorityRepository.getDescription(task.priorityId)
+        this.mTextPriority.text = priorityRepository.priorityDescription(task.priorityId)
 
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(task.dueData)
-        this.mTextDueDate.text = dateFormat.format(date)
+        if (date != null) this.mTextDueDate.text = dateFormat.format(date)
 
         if (task.complete) {
             mTextDescription.setTextColor(Color.GRAY)
