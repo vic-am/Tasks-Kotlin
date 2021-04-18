@@ -14,11 +14,11 @@
     <string name="login">Login</string>
     <string name="nome">Nome</string>
     <string name="cadastrar">Cadastrar</string>
-    <string name="descricao">Descrição</string>
-    <string name="prioridade">Prioridade</string>
+    <string name="descricao">Escreva aqui uma descrição</string>
+    <string name="prioridade">Selecione uma prioridade</string>
     <string name="data_limite">Data Limite</string>
     <string name="update_task">Atualizar tarefa</string>
-    <string name="clique_para_selecionar_a_data">Clique para selecionar a data limite</string>
+    <string name="clique_para_selecionar_a_data">Toque aqui para definir uma data</string>
     <string name="completa">Completa</string>
     <string name="adicionar_tarefa">Adicionar tarefa</string>
     <string name="sim">Sim</string>
