@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tasks.R
+import com.example.tasks.service.Utls
 import com.example.tasks.service.constants.TaskConstants
 import com.example.tasks.service.model.TaskModel
 import com.example.tasks.viewmodel.TaskFormViewModel
@@ -49,6 +50,8 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             handleSave()
         } else if (id == R.id.button_date) {
             showDatePicker()
+            Utls.closeKeyboard(applicationContext, this)
+
         }
     }
 

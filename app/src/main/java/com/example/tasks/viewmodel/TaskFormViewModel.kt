@@ -26,12 +26,12 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
     var task: LiveData<TaskModel> = mutableTask
 
     fun listPriorities() {
-        mutablePriorityList.value = priorityRepository.list()
+        mutablePriorityList.value = priorityRepository.prioritiesList()
     }
 
     fun save(task: TaskModel) {
         if (task.id == 0) {
-            taskRepository.create(task, object : ApiListener<Boolean> {
+            taskRepository.createTask(task, object : ApiListener<Boolean> {
                 override fun onSuccess(model: Boolean) {
                     mutableValidation.value = ValidationListener()
                 }
@@ -41,7 +41,7 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
                 }
             })
         } else {
-            taskRepository.update(task, object : ApiListener<Boolean> {
+            taskRepository.updateTask(task, object : ApiListener<Boolean> {
                 override fun onSuccess(model: Boolean) {
                     mutableValidation.value = ValidationListener()
                 }
@@ -54,7 +54,7 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun load(id: Int) {
-        taskRepository.load(id, object : ApiListener<TaskModel> {
+        taskRepository.loadTask(id, object : ApiListener<TaskModel> {
             override fun onSuccess(model: TaskModel) {
                 mutableTask.value = model
             }
