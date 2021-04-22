@@ -38,15 +38,15 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
         }
 
         when (this.taskFilter) {
-            TaskConstants.FILTER.ALL -> taskRepository.all(listener)
-            TaskConstants.FILTER.NEXT -> taskRepository.nextWeek(listener)
-            TaskConstants.FILTER.EXPIRED -> taskRepository.overdue(listener)
+            TaskConstants.FILTER.ALL -> taskRepository.allTasks(listener)
+            TaskConstants.FILTER.NEXT -> taskRepository.nextWeekTasks(listener)
+            TaskConstants.FILTER.EXPIRED -> taskRepository.overdueTasks(listener)
 
         }
     }
 
     fun complete(id: Int) {
-        taskRepository.updateStatus(id, true, object : ApiListener<Boolean> {
+        taskRepository.changeTaskStatus(id, true, object : ApiListener<Boolean> {
             override fun onSuccess(model: Boolean) {
                 list(taskFilter)
             }
@@ -56,7 +56,7 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun undo(id: Int) {
-        taskRepository.updateStatus(id, false, object : ApiListener<Boolean> {
+        taskRepository.changeTaskStatus(id, false, object : ApiListener<Boolean> {
             override fun onSuccess(model: Boolean) {
                 list(taskFilter)
             }
@@ -67,7 +67,7 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
 
     fun delete(id: Int) {
 
-        taskRepository.delete(id, object : ApiListener<Boolean> {
+        taskRepository.deleteTask(id, object : ApiListener<Boolean> {
             override fun onSuccess(model: Boolean) {
                 list(taskFilter)
                 mutableValidation.value = ValidationListener()

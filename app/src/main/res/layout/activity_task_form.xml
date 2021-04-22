@@ -11,75 +11,74 @@
         android:id="@+id/edit_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#fafafa"
+        android:background="@drawable/shape_custom_view"
         android:hint="@string/descricao"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/default_text_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
-    <View
-        android:id="@+id/view_description"
-        style="@style/ViewDivider"
+    <LinearLayout
+        android:id="@+id/priority_view"
         android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_description" />
-
-    <TextView
-        android:id="@+id/text_priority"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/prioridade"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_description" />
+        android:layout_marginTop="14dp"
+        android:background="@drawable/shape_custom_view"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_description">
 
-    <Spinner
-        android:id="@+id/spinner_priority"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#c1c1c1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_priority" />
+        <TextView
+            android:id="@+id/text_priority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/prioridade"
+            android:textColor="@color/black"
+            android:textSize="@dimen/default_text_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_description" />
 
-    <View
-        android:id="@+id/view_complete"
-        style="@style/ViewDivider"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_priority" />
+        <Spinner
+            android:id="@+id/spinner_priority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_priority" />
+
+    </LinearLayout>
 
     <CheckBox
         android:id="@+id/check_complete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/default_16dp"
+        android:background="@drawable/shape_custom_view"
         android:text="@string/completa"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_complete" />
-
-    <View
-        android:id="@+id/view_date"
-        style="@style/ViewDivider"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/check_complete" />
+        android:textSize="@dimen/default_text_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priority_view" />
 
     <Button
         android:id="@+id/button_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/default_8dp"
         android:background="@android:color/transparent"
-        android:gravity="center_vertical"
         android:hint="@string/clique_para_selecionar_a_data"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_date" />
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/default_text_18sp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_complete" />
 
 
     <Button
@@ -87,9 +86,10 @@
         style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_64dp"
         android:text="@string/adicionar_tarefa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

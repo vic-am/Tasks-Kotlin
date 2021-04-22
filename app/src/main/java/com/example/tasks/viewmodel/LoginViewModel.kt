@@ -11,7 +11,7 @@ import com.example.tasks.service.constants.TaskConstants.SHARED.PERSON_NAME
 import com.example.tasks.service.constants.TaskConstants.SHARED.TOKEN_KEY
 import com.example.tasks.service.listener.ApiListener
 import com.example.tasks.service.listener.ValidationListener
-import com.example.tasks.service.model.HeaderModel
+import com.example.tasks.service.model.ApiHeaderModel
 import com.example.tasks.service.repository.PersonRepository
 import com.example.tasks.service.repository.PriorityRepository
 import com.example.tasks.service.repository.local.SecurityPreferences
@@ -32,8 +32,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var userName = ""
 
     fun doLogin(email: String, password: String) {
-        personRepository.login(email, password, object : ApiListener<HeaderModel> {
-            override fun onSuccess(model: HeaderModel) {
+        personRepository.login(email, password, object : ApiListener<ApiHeaderModel> {
+            override fun onSuccess(model: ApiHeaderModel) {
                 sharedPreferences.store(TOKEN_KEY, model.token)
                 sharedPreferences.store(PERSON_KEY, model.personKey)
                 sharedPreferences.store(PERSON_NAME, model.name)
@@ -60,7 +60,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
         RetrofitClient.addHeader(token, person)
 
-        if (!isLogged) priorityRepository.all()
+        if (!isLogged) priorityRepository.allPriorities()
 
         if (FingerprintHelper.isAuthenticationAvailable(getApplication())) {
             mutableFingerprint.value = isLogged
