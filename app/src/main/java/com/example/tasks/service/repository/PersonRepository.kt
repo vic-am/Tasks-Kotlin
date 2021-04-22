@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonRepository(val context: Context) : BaseRepository(context) {
+class PersonRepository(val context: Context) : BaseRepository() {
 
     private val remote = RetrofitClient.createService(PersonService::class.java)
 

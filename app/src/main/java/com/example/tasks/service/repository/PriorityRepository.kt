@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PriorityRepository(val context: Context) : BaseRepository(context) {
+class PriorityRepository(val context: Context) : BaseRepository() {
 
     private val remote = RetrofitClient.createService(PriorityService::class.java)
     private val priorityDatabase = TaskDatabase.getDatabase(context).priorityDao()
